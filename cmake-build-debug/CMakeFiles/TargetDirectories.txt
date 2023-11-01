@@ -1,3 +1,0 @@
-E:/Code/Skola/Su/CProg/Labs/cmake-build-debug/CMakeFiles/Labs.dir
-E:/Code/Skola/Su/CProg/Labs/cmake-build-debug/CMakeFiles/edit_cache.dir
-E:/Code/Skola/Su/CProg/Labs/cmake-build-debug/CMakeFiles/rebuild_cache.dir
