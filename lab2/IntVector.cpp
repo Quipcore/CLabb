@@ -4,60 +4,89 @@
 
 #include "IntVector.h"
 
-
-
 IntVector::IntVector(std::initializer_list<int> values)
 {
-    changeSize(data, values.size());
-    int i = 0;
-    for (int value : values) {
-        data[i] = value;
-        i++;
+    for (int value : values)
+    {
+        push_back(value);
     }
-
 }
 
-
-int IntVector::size() const {
-    return 0;
-}
-
-int& IntVector::operator[](int index) {
-    return data[index];
-}
-
-const int& IntVector::operator[](int index) const {
-    return data[index];
-}
-
-IntVector& IntVector::operator=(const IntVector& other) {
-    return *this;
-}
-
-std::ostream& operator<<(std::ostream& os, const IntVector& v) {
-    return os;
-}
-
-void IntVector::changeSize(int arr[], int size) {
-    int* temp = new int[size];
-    for (int i = 0; i < size; i++) {
-        temp[i] = arr[i];
-    }
-    delete[] arr;
-    arr = temp;
+IntVector::IntVector(const IntVector &other) {
+    sz = other.sz;
+    head = other.head;
 }
 
 IntVector::IntVector() {
-    changeSize(data, 8);
+
 }
 
-IntVector::IntVector(const IntVector& other) {
-    changeSize(data, other.size());
-    for (int i = 0; i < other.size(); i++) {
-        data[i] = other[i];
+int IntVector::size() const {
+    return sz;
+}
+
+Node* IntVector::getNodeAt(int index) const{
+    Node* temp = head;
+    for(int i = 0; i < index; i++){
+        temp = temp->next;
+    }
+    return temp;
+}
+
+int & IntVector::getDataAt(int index) const {
+    Node* node = getNodeAt(index);
+    return node->data;
+}
+
+int &IntVector::operator[](int index) {
+    return getDataAt(index);
+}
+
+const int &IntVector::operator[](int index) const {
+    return getDataAt(index);
+}
+
+IntVector &IntVector::operator=(const IntVector &other) {
+    sz = 0;
+    head = nullptr;
+    for(int i = 0; i < other.sz; i++){
+        push_back(other[i]);
+    }
+
+    return *this;
+}
+
+std::ostream &operator<<(std::ostream &ostream, const IntVector &vector) {
+    for(int i = 0; i < vector.sz; i++){
+        ostream << vector[i] << " ";
+    }
+    return ostream;
+}
+
+void IntVector::push_back(int value) {
+    sz++;
+    Node* node = new Node();
+    node->data = value;
+    node->next = nullptr;
+
+    if(head == nullptr){
+        head = node;
+    }else{
+        Node* temp = head;
+        while(temp->next != nullptr){
+            temp = temp->next;
+        }
+        temp->next = node;
     }
 }
 
-void IntVector::push_back(int num){
 
-}
+
+
+
+
+
+
+
+
+

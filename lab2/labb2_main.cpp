@@ -22,14 +22,12 @@ int main ()
      *  vek5[5]: 46
      *  vek5: 10 11 16 75 23 46
      */
-
     IntVector vek1 { 10,11,16,20,23 };
     IntVector vek2;
     IntVector vek3( vek1 );
     IntVector vek4( func() );
 
     std::cout << "vek4: " << vek4 << std::endl;
-
     vek4 = vek3;
     vek4[3] = 75;
     std::cout << "vek3[3]: " << vek3[3] << std::endl;
@@ -38,7 +36,6 @@ int main ()
     std::cout << "vek4: " << vek4 << std::endl;
 
     vek4.push_back(46);
-
     const IntVector vek5(vek4);
     std::cout << "vek5, size: " << vek5.size() << std::endl;
     std::cout << "vek5[5]: " << vek5[5] << std::endl;
