@@ -8,6 +8,8 @@
 #include <string>
 #include "Datum.h"
 
+std::string month_names[13] = {"","January","February", "March", "April","May", "June", "July", "August", "September", "October", "November", "December"};
+
 // Initialisera statisk medlem
 // (första elementet används inte i denna lösning!)
 const std::array< unsigned int, 13 > Datum::ANT_DAGAR_PER_MAANAD = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
@@ -19,8 +21,12 @@ Datum::Datum( int year, int month, int day  )
     set_date( year, month, day);
 }
 
-Datum::Datum() {
+Datum::Datum(const Datum &other) {
+    set_date(other.year, other.month, other.day);
+}
 
+Datum::Datum() {
+    set_date(2000, 1, 1);
 }
 
 
@@ -74,57 +80,78 @@ bool Datum::end_of_month( int dd ) const
         return dd == ANT_DAGAR_PER_MAANAD[ month ];
 }
 
+
+
 // operator<<
 std::ostream &operator<<( std::ostream &output, const Datum &d ) {
     // OBS. Glöm inte att modifiera vad som skrivs ut!
-    output << d.year << '-' << d.month << '-' << d.day;
+    output << d.day << ' ' << month_names[d.month] << ' ' << d.year;
     return output;
-
 }
 
-Datum::operator int() const {
-    return 0;
+Datum operator+(const int left, const Datum& right) {
+    Datum temp(right);
+    temp = temp + left;
+    return temp;
 }
 
-Datum Datum::operator+(int) {
-    return Datum();
+Datum Datum::operator+(int count) const {
+    Datum tmp(year, month, day);
+    for(int i = 0; i < count; i++){
+        tmp.step_one_day();
+    }
+    return tmp;
 }
 
-Datum Datum::operator++(int) const {
-    return Datum();
+//Postfix
+Datum Datum::operator++(int) {
+    Datum tmp(*this);
+    *this += 1;
+    return tmp;
 }
 
 //Prefix
 Datum &Datum::operator++() {
+    step_one_day();
     return *this;
 }
 
-Datum Datum::operator+=(int) {
-    return Datum();
+Datum Datum::operator+=(int count) {
+    for (int i = 0; i < count; i++){
+        step_one_day();
+    }
+    return *this;
 }
 
 bool Datum::operator<(Datum date) {
+    if(year < date.year){
+        return true;
+    }
+    if(month < date.month){
+        return true;
+    }
+    if(day < date.day){
+        return true;
+    }
     return false;
 }
 
 bool Datum::operator<=(Datum date) {
-    return false;
+    return date == *this || *this < date;
 }
 
 bool Datum::operator>(Datum date) {
-    return false;
+    return !(*this <= date);
 }
 
 bool Datum::operator>=(Datum date) {
-    return false;
+    return !(*this < date);
 }
 
 bool Datum::operator==(Datum date) {
-    return false;
+    return (date.day == day) && (date.month == month) && (date.year == year);
 }
 
 bool Datum::operator!=(Datum date) {
-    return false;
+    return !(date == *this);
 }
-
-
