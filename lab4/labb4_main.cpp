@@ -22,7 +22,6 @@ template<class T>
 void inmatning(Trad<T> &t){
     T i;
     std::cout <<"Mata in tal: "; std::cin >> i; //2
-    std::cout << std::endl;
     if(t.sok(i)){
         std::cout << "Finns redan i trädet!" << std::endl;
     }else{
