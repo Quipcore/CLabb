@@ -60,7 +60,6 @@ void ta_bort_person(std::vector<Person> &people, std::string fnamn) {
             --i;
         }
     }
-
 }
 
 int main() {
@@ -92,9 +91,8 @@ int main() {
     //  Skriv hela telefonboken - 's'
     //  Ta bort en person       - 'd' förnamn
     //  Avsluta                 – 'q'
-    char command = 0;
-
-    while (command != 'q') {
+    
+    for(char command = 0; command != 'q';){
         std::cout << "Kommando: ";
         std::cin >> command;
         std::string fnamn, enamn, nummer;

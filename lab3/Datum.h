@@ -31,7 +31,7 @@ public:
     static bool is_skott_aar( int ); // Är det skottår?
     bool end_of_month( int ) const; // Är dagen den sista i månaden?
 
-    //const Datum operator+(int left, const Datum& right);
+    //const Datum operator+(int v_barn, const Datum& h_barn);
     Datum operator+(int) const;
     Datum operator++(int); //Postfix
     Datum& operator++(); //Prefix

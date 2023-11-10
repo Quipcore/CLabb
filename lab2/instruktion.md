@@ -14,7 +14,7 @@ med funktionen main och funktionen för test av move-konstruktorn finns redan me
 
 IntVector ska ha värdesemantik, dvs den (och alla dess element) ska kopieras vid tilldelning, då den skickas som 
 värdeargument till funktioner och då den returneras från funktioner. Ett IntVector-objekt ska kunna konstrueras utan 
-argument (en tom IntVector), med ett annat IntVector-objekt (en copy-konstruktor, den nya IntVector blir en kopia av 
+argument (en tom IntVector), med ett annat IntVector-objekt (en kopiera-konstruktor, den nya IntVector blir en kopia av 
 argumentet), med ett temporärt IntVector-objekt (en move-konstruktor, det temporära objektet nollställs), samt med 
 värden från en initieringslista.
 

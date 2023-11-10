@@ -44,7 +44,7 @@ lab3:
 	@echo "Running lab3 executable..."
 	$(TARGET3)
 
-# Rule to build and run the lab3 executable
+# Rule to build and run the lab4 executable
 lab4:
 	$(CXX) $(CXXFLAGS) $(SRCS4) -o $(TARGET4)
 	@echo "Running lab4 executable..."

@@ -1,89 +1,162 @@
 //
 // Felix Lidö feli8145
 //
-//  Trad.h
-//  labb4_tree
 
+#ifndef CPROG_LABS_TRAD_H
+#define CPROG_LABS_TRAD_H
 
-#ifndef TRAD_H
-#define TRAD_H
-
+#include "stdexcept"
 #include <iostream>
 
-
 template<typename T>
-class Trad {
+class Trad{
 public:
-    Trad() : rot(0) {};
+    Trad(): rot(0){};
 
-    Trad(T t) {
+    Trad(T t){
         rot = new Nod(t);
     };
 
-    Trad(const Trad &t) {
+    Trad(const Trad<T> &t){
         kopiera(t);
     };
 
-    ~Trad() {
+    ~Trad(){
         delete rot;
     };
 
-    bool tomt() const {
+    bool tom() const{
         return !rot;
     };
 
-    T &varde() const {
-        koll();
+    T &varde() const{
+        kolla();
         return rot->data;
     };
 
-    Trad &v_barn() const {
-        koll();
-        return *rot->vanster;
+    Trad<T> &v_barn() const{
+        kolla();
+        return *rot->left;
     };
 
-    Trad &h_barn() const {
-        koll();
-        return *rot->hoger;
+    Trad<T> &h_barn() const{
+        kolla();
+        return *rot->right;
     };
 
-    Trad &operator=(const Trad &);
-    virtual bool operator==(const Trad &) const;
+    Trad<T> &operator=(const Trad<T> &);
+    bool operator==(const Trad<T> &) const;
+    void skriv_ut();
 
-    virtual void skriv_ut() const;
+    void satt_in(T t);
+    bool sok(T t);
 
-    void satt_in(T i){
-
-    };
-    bool sok(int i){
-        return false;
-    };
 
 private:
-    class Nod {
-        friend class Trad;
-        int data;
-        Trad *vanster, *hoger;
-        Nod( T d ) : data( d ), vanster( new Trad ), hoger( new Trad ) {
-
-        };
-
+    class Nod{
+        friend class Trad<T>;
+        T data;
+        Trad<T> *left, *right;
+        Nod(T t ): data(t), left(new Trad<T>), right(new Trad<T>){};
         ~Nod()
         {
-            delete vanster;
-            delete hoger;
+            delete left;
+            delete right;
         };
     };
 
     Nod *rot;
-
-    void koll() const {
-        if (tomt()) {
+    void kolla() const{
+        if(tom()){
             throw std::range_error("Trad");
         }
-    }
-
-    virtual void kopiera(const Trad &t);
+    };
+    void kopiera(const Trad<T> &t);
 };
 
-#endif /* Trad_h */
+template<typename T>
+void Trad<T>::satt_in(T t) {
+    if(tom()){
+        rot = new Nod(t);
+        return;
+    }
+
+    if(t < rot->data){
+        v_barn().satt_in(t);
+        return;
+    }
+
+    if(t > rot->data){
+        h_barn().satt_in(t);
+        return;
+    }
+
+}
+
+template<typename T>
+bool Trad<T>::sok(T t) {
+    if(tom()){
+        return false;
+    }
+
+
+    if(rot->data == t){
+        return true;
+    }
+
+    if(t < rot->data){
+        return v_barn().sok(t);
+    }
+
+    if(t > rot->data){
+        return h_barn().sok(t);
+    }
+
+    return false;
+}
+
+//Assignment includes this in cpp
+template<typename T>
+Trad<T> &Trad<T>::operator=(const Trad<T> &t) {
+    if(rot != t.rot){
+        delete rot;
+        kopiera(t);
+    }
+    return *this;
+}
+
+//Assignment includes this in cpp
+template<typename T>
+bool Trad<T>::operator==(const Trad<T> &t) const {
+
+    return (tom() && t.tom()) ||
+           (!tom() && !t.tom() &&
+            varde() == t.varde() &&
+            v_barn() == t.v_barn() &&
+            h_barn() == t.h_barn());
+}
+
+//Assignment includes this in cpp
+template<typename T>
+void Trad<T>::skriv_ut() {
+    if(!tom()){
+        v_barn().skriv_ut();
+        std::cout << varde() << " ";
+        h_barn().skriv_ut();
+    }
+}
+
+//Assignment includes this in cpp
+template<typename T>
+void Trad<T>::kopiera(const Trad<T> &t) {
+    if(t.tom()){
+        rot = 0;
+        return;
+    }
+
+    rot = new Nod(t.varde());
+    v_barn().kopiera(t.v_barn());
+    h_barn().kopiera(t.h_barn());
+}
+
+#endif //CPROG_LABS_TRAD_H
