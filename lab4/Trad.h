@@ -74,8 +74,6 @@ private:
     void kopiera(const Trad<T> &t);
 };
 
-#include "Trad.h"
-
 template<class T>
 void Trad<T>::satt_in(T t) {
     if(tom()){
